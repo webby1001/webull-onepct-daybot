@@ -63,7 +63,36 @@ pytest -q
 
 ## Config
 
-See `.env.example`. Important knobs: `GAP_MIN_PCT`, `MAX_NOTIONAL_FRACTION`, `STOP_LOSS_PCT`, `PAPER_BANKROLL`, `PORT=8082`, `WATCHLIST`.
+See `.env.example`. Important knobs: `GAP_MIN_PCT`, `MAX_NOTIONAL_FRACTION`, `STOP_LOSS_PCT`, `PAPER_BANKROLL`, `PORT=8082`, `WATCHLIST`, plus optional `WEBULL_*` sandbox keys.
+
+
+## Webull sandbox (paper orders)
+
+Without keys the app uses an in-memory **MockBroker** (same as before).
+
+To place **real paper/sandbox** equity orders against `api.sandbox.webull.com`, set in `.env`:
+
+```env
+WEBULL_APP_KEY=...
+WEBULL_APP_SECRET=...
+WEBULL_ACCOUNT_ID=...   # prefer Individual CASH (not EVENTS_CASH)
+WEBULL_API_HOST=api.sandbox.webull.com
+TRADING_MODE=paper
+ALLOW_LIVE_TRADING=false
+```
+
+Orders use `POST /openapi/trade/order/place` with `instrument_type=EQUITY`, `market=US`, `support_trading_session=CORE` (RTH / CORE session). Symbols are plain US tickers (e.g. `TQQQ`).
+
+### Live dual-opt-in (off by default)
+
+Live/production requires **both**:
+
+1. `TRADING_MODE=live`
+2. `ALLOW_LIVE_TRADING=true`
+
+Otherwise the host stays on sandbox and production hosts are blocked. Do **not** enable live by default.
+
+`GET /status` reports `broker`, `keys_configured`, `account_id_configured`, `host`, and `allow_live_trading`.
 
 ## Relation to momentum-daybot
 

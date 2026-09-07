@@ -8,7 +8,6 @@ from datetime import datetime, timezone
 from typing import Callable
 
 from app.broker.base import OrderRequest
-from app.broker.mock import MockBroker
 from app.config import Settings
 from app.market.quotes import Quote, QuoteService
 from app.risk.bankroll import BankrollRisk, SessionGate
@@ -35,7 +34,7 @@ class GapContinuationStrategy:
 
     def __init__(
         self,
-        broker: MockBroker,
+        broker,  # MockBroker | WebullBroker (duck-typed)
         settings: Settings,
         quotes: QuoteService,
         risk: BankrollRisk,

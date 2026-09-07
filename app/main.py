@@ -49,10 +49,11 @@ async def lifespan(app: FastAPI):
     app.state.scheduler = scheduler
 
     logger.info(
-        "webull-onepct-daybot up — strategy=%s broker=%s mode=%s bankroll=%.0f port=%s",
+        "webull-onepct-daybot up — strategy=%s broker=%s mode=%s host=%s bankroll=%.0f port=%s",
         settings.strategy_name,
         getattr(broker, "name", "?"),
         settings.trading_mode,
+        settings.resolved_host(),
         settings.paper_bankroll,
         settings.port,
     )
