@@ -1,0 +1,12 @@
+.venv/
+__pycache__/
+*.pyc
+.env
+.pytest_cache/
+*.egg-info/
+dist/
+build/
+.DS_Store
+artifacts/backtest/cache/
+artifacts/backtest/equity_curve.csv
+artifacts/backtest/trades.csv
